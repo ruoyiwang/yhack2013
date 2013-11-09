@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jake.quiltview.QuiltView;
+import com.jake.quiltview.QuiltViewPatch;
 
 public class MainActivity extends Activity {
 	public QuiltView quiltView;
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+		quiltView = (QuiltView) findViewById(R.id.quilt);
         String FILENAME = "todo.json", jsonstring;
         StringBuilder sb = new StringBuilder();
         BufferedReader bs;
@@ -43,18 +45,10 @@ public class MainActivity extends Activity {
         final Intent addItemIntent = new Intent(getBaseContext(), AddNewItem.class);
         JoySort js = new JoySort();
         ArrayList<ToDoList> todolists = new ArrayList<ToDoList>();
-        Button btnAddNewItem = (Button) findViewById(R.id.btnCreateTask);
-        
-        btnAddNewItem.setOnClickListener(new OnClickListener() {
-        	   @Override
-        	   public void onClick(View v) {
-        		   startActivity(addItemIntent);
-        	   }
-        });
 
         ArrayList<String> ints;
         // ints.add("hello");
-        
+        /*
         try {
             fis = new FileInputStream(FILENAME);
             bs = new BufferedReader(new InputStreamReader(fis, ""));
@@ -67,12 +61,33 @@ public class MainActivity extends Activity {
         catch (Exception e) {
         	System.out.println("Hello");
         }
+        */
         
-        jsonstring = sb.toString();
+        JSONArray top = null;
+		try {
+			File dir = Environment.getExternalStorageDirectory();
+			File file = new File(dir, "todo.json");
+			FileInputStream stream = new FileInputStream(file);
+			String jString = null;
+			 FileChannel fc = stream.getChannel();
+			 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+			 /* Instead of using default, pass in a decoder. */
+			jString = Charset.defaultCharset().decode(bb).toString();
+			stream.close();
+			top = new JSONArray(jString);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //jsonstring = sb.toString();
         
         try {
-        	JSONObject jsonObjMain = new JSONObject(jsonstring);
-        	JSONArray jsonArray = jsonObjMain.getJSONArray("lists");
+        	// JSONObject jsonObjMain = new JSONObject(jsonstring);
+        	JSONArray jsonArray = top;
         	
         	for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -89,18 +104,19 @@ public class MainActivity extends Activity {
                 ca1.set(year,month,day);
                 int duedate = ca1.get(Calendar.DAY_OF_YEAR);
                 
-        		String desc = jsonObj.getString("desc");
+        		String desc = jsonObj.getString("Desc");
         		String title = jsonObj.getString("ItemName");
 
         		todolists.add(new ToDoList(id, importance, duedate, title, desc));
         	}
         }
         catch (Exception e) {
-        	System.out.println("Hello");
+        	System.out.println("Hellol");
         }
         
         ArrayList<ToDoList> PrioritizedToDoLists = js.sort(todolists);
-        ArrayList<ToDoWidget> widgets = new ArrayList<ToDoWidget>();
+        ArrayList<View> widgets = new ArrayList<View>();
+        ArrayList<QuiltViewPatch.Size> sizes = new ArrayList<QuiltViewPatch.Size>();
 
         for (int i = 0; i < PrioritizedToDoLists.size(); i++) {
         	ToDoList curList = PrioritizedToDoLists.get(i);
@@ -111,7 +127,35 @@ public class MainActivity extends Activity {
         	
         	newTodoWidget.setContent(curList.title, curList.description, iDaysLeft);
         	widgets.add(newTodoWidget);
+        	
+			if(i % 5 == 0)
+				newTodoWidget.setBackgroundColor(0xFFEDF393);//(R.drawable.mayer);
+			else if (i%5 == 1)
+				newTodoWidget.setBackgroundColor(0xFFF5E665);//(R.drawable.mayer);
+			else if (i%5 == 2)
+				newTodoWidget.setBackgroundColor(0xFFFFC472);//(R.drawable.mayer);
+			else if (i%5 == 3)
+				newTodoWidget.setBackgroundColor(0xFFFFA891);//(R.drawable.mayer);
+			else 
+				newTodoWidget.setBackgroundColor(0xFF89BABE);//image.setImageResource(R.drawable.mayer1);
+			
+        	if(PrioritizedToDoLists.get(i).priority == 1){
+        		sizes.add(QuiltViewPatch.Size.Huge);
+        	}
+        	else if(PrioritizedToDoLists.get(i).priority == 2){
+        		sizes.add(QuiltViewPatch.Size.Big);
+        	}
+        	else if(PrioritizedToDoLists.get(i).priority == 3){
+        		sizes.add(QuiltViewPatch.Size.Tall);
+        	}
+        	else if(PrioritizedToDoLists.get(i).priority == 4){
+        		sizes.add(QuiltViewPatch.Size.Wide);
+        	}
+        	else if(PrioritizedToDoLists.get(i).priority == 5){
+        		sizes.add(QuiltViewPatch.Size.Small);
+        	}
         }
+        quiltView.addPatchYViews(widgets,sizes);
         
     }
 
