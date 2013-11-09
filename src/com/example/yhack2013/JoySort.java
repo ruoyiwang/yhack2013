@@ -13,47 +13,21 @@ public class JoySort {
         
         ArrayList<ToDoList> PL = ltToDos;
         
-        
-        int criteria;
-        int largestItemFlag = 0;
-        
-        
-        for ( int i = 0; i < ltToDos.size(); i++) {
+        Collections.sort(PL, new DateCompare());
+        for ( int i = 0; i < PL.size(); i++) {
+        	if (i == 0)
+        		PL.get(i).priority = 1;
+        	else if (i < 3)
+        		PL.get(i).priority = 2;
+        	else if (i < 6)
+        		PL.get(i).priority = 3;
+        	else if (i < 10)
+        		PL.get(i).priority = 4;
+        	else
+        		PL.get(i).priority = 5;
         	
-            ToDoList PI = ltToDos.get(i);
-            
-            ToDoList item = ltToDos.get(i);
-            
-            int iDayOfYear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-            int DaysLeft = item.duedate - iDayOfYear;
-            
-            if (DaysLeft == 0){ 
-                criteria = 1 + item.importance;
-            } else if (DaysLeft < 3){
-                criteria = 2 + item.importance;
-            } else if (DaysLeft < 7){
-                criteria = 3 + item.importance;
-            } else if (DaysLeft < 31){
-                criteria = 4 + item.importance;
-            } else {
-                criteria = 5 + item.importance;
-            }
-            
-            if ((criteria == 2) && (largestItemFlag == 0)){
-                PI.priority = 1;
-                largestItemFlag = 1;
-            } else if (criteria < 4){
-                PI.priority = 2;
-            } else if (criteria < 6){
-                PI.priority = 3;
-            } else if (criteria < 8){
-                PI.priority = 4;
-            } else {
-                PI.priority = 5;
-            }
         }
                 
-        Collections.sort(PL, new DateCompare());
         
         return PL;
     
@@ -63,6 +37,33 @@ public class JoySort {
 
 class DateCompare implements Comparator<ToDoList> {
     public int compare(ToDoList pi1, ToDoList pi2){
-        return pi1.priority - pi2.priority;
+        int iDayOfYear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+    	int daysLeft1 = pi1.duedate - iDayOfYear;
+    	int daysLeft2 = pi2.duedate - iDayOfYear;
+    	int criteria1, criteria2;
+
+        if (daysLeft1 == 0)
+        	criteria1 = 0;
+        else if (daysLeft1 < 3)
+        	criteria1 = 1;
+        else if (daysLeft1 < 7)
+        	criteria1 = 2;
+        else if (daysLeft1 < 31)
+        	criteria1 = 3;
+        else
+        	criteria1 = 4;
+
+        if (daysLeft2 == 0)
+        	criteria2 = 0;
+        else if (daysLeft2 < 3)
+        	criteria2 = 1;
+        else if (daysLeft2 < 7)
+        	criteria2 = 2;
+        else if (daysLeft2 < 31)
+        	criteria2 = 3;
+        else
+        	criteria2 = 4;
+    	
+        return (pi1.importance - criteria1) - (pi2.importance - criteria2);
     }
 }
