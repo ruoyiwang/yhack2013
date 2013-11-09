@@ -130,7 +130,7 @@ public class ToDoWidget extends View{
 	public void setContent(String label ,String text,int duedate){
 		this.label = label;
 		this.text = text;
-		this.day_count = "";
+		this.day_count = "yoloswag";
 	}
 	
 }

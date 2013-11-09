@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < PrioritizedToDoLists.size(); i++) {
         	ToDoList curList = PrioritizedToDoLists.get(i);
         	
-        	ToDoWidget newTodoWidget = new ToDoWidget(getApplicationContext());
+        	ToDoWidget newTodoWidget = new ToDoWidget(this);
         	
         	int iDaysLeft = Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - curList.duedate;
         	
