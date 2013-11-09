@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class AddNewItem extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_item);
 		// init the dates
@@ -54,8 +56,8 @@ public class AddNewItem extends Activity {
 			@Override
 			public void onClick(View v) {
 				int iImportance = (int) rbImportance.getRating();
-				String sItemName = textItemName.getText().toString();
-				String editTextDesc = textItemName.getText().toString();
+				String sItemName = textItemName.getText().toString();	
+				String sDesc = editTextDesc.getText().toString();
 
 				if (!sItemName.isEmpty()) {
 					JSONArray top = null;
@@ -87,20 +89,25 @@ public class AddNewItem extends Activity {
 							top = new JSONArray();
 						}
 						
-						JSONObject lastobj = top.getJSONObject(top.length()-1);
+						// compute new id
+						int iNewId = 0;
+						if (top.length() > 0 ) {
+							JSONObject lastobj = top.getJSONObject(top.length()-1);
+							iNewId = lastobj.getInt("Id")+1;
+						}
 						
 						// adding new info the json
 						JSONObject json = new JSONObject();
-						json.put("Id", lastobj.getInt("Id")+1);
+						json.put("Id", iNewId);
 							// new item's id will be the last item's id + 1
 						json.put("ItemName", sItemName);
 						json.put("Importance", iImportance);
-						json.put("Desc", editTextDesc);
+						json.put("Desc", sDesc);
 						json.put("Day", iDay);
 						json.put("Month", iMonth);
 						json.put("Year", iYear);
 						
-						top.put(top.length(), json);
+						top.put(iNewId, json);
 						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -134,6 +141,7 @@ public class AddNewItem extends Activity {
 					).show();
 					// reset fields
 					textItemName.setText("");
+					editTextDesc.setText("");
 					rbImportance.setRating(0);
 					
 					iYear = c.get(Calendar.YEAR);

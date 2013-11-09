@@ -127,10 +127,10 @@ public class ToDoWidget extends View{
 	        return true;
 	    }
 	}
-	public void setContent(String label ,String text,String day_count){
+	public void setContent(String label ,String text,int duedate){
 		this.label = label;
 		this.text = text;
-		this.day_count = day_count;
+		this.day_count = "";
 	}
 	
 }
