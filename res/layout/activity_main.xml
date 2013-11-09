@@ -5,15 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<<<<<<< HEAD
-    <com.jake.quiltview.QuiltView
-        android:id="@+id/quilt"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dip"
-        app:scrollOrientation="vertical" >
-    </com.jake.quiltview.QuiltView>
-=======
     <Button
         android:id="@+id/btnCreateTask"
         android:layout_width="wrap_content"
@@ -21,6 +12,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Create New Task" />
->>>>>>> 732fde9c524963de8561ae2ce7952fc117ff22c6
 
 </FrameLayout>

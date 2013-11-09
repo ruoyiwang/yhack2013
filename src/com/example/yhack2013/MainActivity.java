@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-<<<<<<< HEAD
-=======
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
->>>>>>> 732fde9c524963de8561ae2ce7952fc117ff22c6
 
 public class MainActivity extends Activity {
 	public QuiltView quiltView;
@@ -30,12 +27,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
-
-		quiltView = (QuiltView) findViewById(R.id.quilt);
-		quiltView.setChildPadding(5);
-		addTestQuilts(100);
-=======
         String FILENAME = "todo.json", jsonstring;
         StringBuilder sb = new StringBuilder();
         BufferedReader bs;
@@ -99,7 +90,6 @@ public class MainActivity extends Activity {
         for (int i = 0; i < shapes.length(); i++) {
         	widgets.add(new ToDoWidget(shapes.get(i), todolists.get(i)));
         }
->>>>>>> 732fde9c524963de8561ae2ce7952fc117ff22c6
     }
 
 
@@ -109,28 +99,4 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-<<<<<<< HEAD
-
-	public void addTestQuilts(int num){
-		ArrayList<View> notes = new ArrayList<View>();
-		for(int i = 0; i < num; i++){
-			ToDoWidget note = new ToDoWidget(this);
-			if(i % 5 == 0)
-				note.setBackgroundColor(0xFFEDF393);//(R.drawable.mayer);
-			else if (i%5 == 1)
-				note.setBackgroundColor(0xFFF5E665);//(R.drawable.mayer);
-			else if (i%5 == 2)
-				note.setBackgroundColor(0xFFFFC472);//(R.drawable.mayer);
-			else if (i%5 == 3)
-				note.setBackgroundColor(0xFFFFA891);//(R.drawable.mayer);
-			else 
-				note.setBackgroundColor(0xFF89BABE);//image.setImageResource(R.drawable.mayer1);
-			
-			note.setContent("FOO", "BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR BAR ", "1 day");
-			notes.add(note);
-		}
-		quiltView.addPatchViews(notes);
-	}
-=======
->>>>>>> 732fde9c524963de8561ae2ce7952fc117ff22c6
 }
