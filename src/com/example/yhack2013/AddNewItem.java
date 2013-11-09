@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -33,6 +34,7 @@ public class AddNewItem extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		final Intent intent = getIntent();
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_item);
@@ -147,7 +149,11 @@ public class AddNewItem extends Activity {
 					iYear = c.get(Calendar.YEAR);
 					iMonth = c.get(Calendar.MONTH);
 					iDay = c.get(Calendar.DAY_OF_MONTH);
-					editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);			
+					editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);		
+
+					
+					finish();
+					startActivity(new Intent(getApplicationContext(), MainActivity.class));
 				}
 				else {
 					Toast.makeText(AddNewItem.this, "Task Name cannot be empty", Toast.LENGTH_LONG).show();
