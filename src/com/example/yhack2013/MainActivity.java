@@ -99,11 +99,18 @@ public class MainActivity extends Activity {
         	System.out.println("Hello");
         }
         
-        ArrayList<Shape> shapes = JoySort.sort(todolists);
+        ArrayList<ToDoList> PrioritizedToDoLists = js.sort(todolists);
         ArrayList<ToDoWidget> widgets = new ArrayList<ToDoWidget>();
 
-        for (int i = 0; i < shapes.length(); i++) {
-        	widgets.add(new ToDoWidget(shapes.get(i), todolists.get(i)));
+        for (int i = 0; i < PrioritizedToDoLists.size(); i++) {
+        	ToDoList curList = PrioritizedToDoLists.get(i);
+        	
+        	ToDoWidget newTodoWidget = new ToDoWidget(getApplicationContext());
+        	
+        	int iDaysLeft = Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - curList.duedate;
+        	
+        	newTodoWidget.setContent(curList.title, curList.description, iDaysLeft);
+        	widgets.add(newTodoWidget);
         }
         
     }

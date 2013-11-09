@@ -7,10 +7,12 @@ public class ToDoList {
 		duedate = duedate_;
 		title = title_;
 		description = description_;
+	    priority = 0;
 	}
 	public int id;
 	public int importance;
 	public int duedate;
+    public int priority;
 	public String title;
 	public String description;
 }
