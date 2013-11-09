@@ -56,8 +56,8 @@
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText1"
-        android:layout_alignBottom="@+id/editText1"
+        android:layout_alignBaseline="@+id/textDesc"
+        android:layout_alignBottom="@+id/textDesc"
         android:layout_alignLeft="@+id/textView1"
         android:text="Description" />
 
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TextView01"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/textDesc"
         android:layout_marginTop="28dp"
         android:text="Importance" />
 
@@ -80,7 +80,7 @@
         android:stepSize="1" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/textDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textItemName"
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/TextViewDueDate"
         android:layout_alignBottom="@+id/TextViewDueDate"
-        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignLeft="@+id/textDesc"
         android:ems="10"
         android:inputType="date"
         android:onClick="showDatePickerDialog" >

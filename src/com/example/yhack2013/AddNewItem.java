@@ -42,6 +42,7 @@ public class AddNewItem extends Activity {
 		iDay = c.get(Calendar.DAY_OF_MONTH);
 		final EditText textItemName = (EditText) findViewById(R.id.textItemName);
 		final EditText editTextDueDate = (EditText) findViewById(R.id.editTextDueDate);
+		final EditText editTextDesc = (EditText) findViewById(R.id.textDesc);
 		final RatingBar rbImportance = (RatingBar) findViewById(R.id.ratingBar);
 		
 		editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);
@@ -54,6 +55,7 @@ public class AddNewItem extends Activity {
 			public void onClick(View v) {
 				int iImportance = (int) rbImportance.getRating();
 				String sItemName = textItemName.getText().toString();
+				String editTextDesc = textItemName.getText().toString();
 
 				if (!sItemName.isEmpty()) {
 					JSONArray top = null;
@@ -90,6 +92,7 @@ public class AddNewItem extends Activity {
 						json.put("Id", top.length());
 						json.put("ItemName", sItemName);
 						json.put("Importance", iImportance);
+						json.put("Desc", editTextDesc);
 						json.put("Day", iDay);
 						json.put("Month", iMonth);
 						json.put("Year", iYear);
