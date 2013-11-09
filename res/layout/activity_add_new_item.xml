@@ -18,34 +18,8 @@
         android:layout_marginTop="39dp"
         android:text="Item Name" />
 
-    <EditText
-        android:id="@+id/textItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="text" />
-
     <TextView
-        android:id="@+id/TextViewImportance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textItemName"
-        android:layout_marginTop="48dp"
-        android:text="Importance" />
-
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TextViewImportance"
-        android:layout_centerHorizontal="true"
-        android:stepSize="1" />
-
-    <TextView
-        android:id="@+id/TextView02"
+        android:id="@+id/TextViewDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TextViewImportance"
@@ -57,10 +31,75 @@
         android:id="@+id/btnAddNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ratingBar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="59dp"
         android:layout_marginRight="45dp"
-        android:text="Add New" />
+        android:text="Add" />
+
+    <EditText
+        android:id="@+id/textItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:ems="10"
+        android:inputType="text">
+        
+        <requestFocus />
+        
+    </EditText>
+    
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/editText1"
+        android:layout_alignBottom="@+id/editText1"
+        android:layout_alignLeft="@+id/textView1"
+        android:text="Description" />
+
+    <TextView
+        android:id="@+id/TextViewImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView01"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="28dp"
+        android:text="Importance" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewImportance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:stepSize="1" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textItemName"
+        android:layout_below="@+id/textItemName"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:maxLength="50" />
+
+    <EditText
+        android:id="@+id/editTextDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextViewDueDate"
+        android:layout_alignBottom="@+id/TextViewDueDate"
+        android:layout_alignLeft="@+id/editText1"
+        android:ems="10"
+        android:inputType="date"
+        android:onClick="showDatePickerDialog" >
+    </EditText>
 
 </RelativeLayout>

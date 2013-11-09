@@ -1,6 +1,5 @@
 package com.example.yhack2013;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
