@@ -31,11 +31,12 @@
         android:id="@+id/btnAddNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ratingBar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="59dp"
         android:layout_marginRight="45dp"
-        android:text="Add New" />
+        android:text="Add" />
 
     <EditText
         android:id="@+id/textItemName"

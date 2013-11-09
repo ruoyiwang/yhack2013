@@ -25,101 +25,123 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 public class AddNewItem extends Activity {
 	private int iDay = 0, iMonth = 0, iYear = 0;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {	
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_item);
 		// init the dates
 		
-		Calendar c = Calendar.getInstance();
+		final Calendar c = Calendar.getInstance();
 		iYear = c.get(Calendar.YEAR);
 		iMonth = c.get(Calendar.MONTH);
 		iDay = c.get(Calendar.DAY_OF_MONTH);
-		EditText textItemName = (EditText) findViewById(R.id.editTextDueDate);
-		textItemName.setText(iMonth + "/" + iDay + "/" + iYear);
+		final EditText textItemName = (EditText) findViewById(R.id.textItemName);
+		final EditText editTextDueDate = (EditText) findViewById(R.id.editTextDueDate);
+		final RatingBar rbImportance = (RatingBar) findViewById(R.id.ratingBar);
 		
-		
+		editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);
+				
 		// add new button inits
-		Button btnAddNewItem = (Button) findViewById(R.id.btnAddNew);
+		Button btnAddNewItem = (Button) findViewById(R.id.btnAddNew);		
 		
 		btnAddNewItem.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final EditText textItemName = (EditText) findViewById(R.id.textItemName);
-				final RatingBar rbImportance = (RatingBar) findViewById(R.id.ratingBar);
 				int iImportance = (int) rbImportance.getRating();
 				String sItemName = textItemName.getText().toString();
-				
-				JSONArray top = null;
-				
-				try {
-					File dir = Environment.getExternalStorageDirectory();
-					File file = new File(dir, "todo.json");
 
-					// if file exists read json from file
-					if (file.exists()) {
-						FileInputStream stream = new FileInputStream(file);
-						String jString = null;
-						try {
-							 FileChannel fc = stream.getChannel();
-							 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-							 /* Instead of using default, pass in a decoder. */
-							 jString = Charset.defaultCharset().decode(bb).toString();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+				if (!sItemName.isEmpty()) {
+					JSONArray top = null;
+					
+					try {
+						File dir = Environment.getExternalStorageDirectory();
+						File file = new File(dir, "todo.json");
+	
+						// if file exists read json from file
+						if (file.exists()) {
+							FileInputStream stream = new FileInputStream(file);
+							String jString = null;
+							try {
+								 FileChannel fc = stream.getChannel();
+								 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+								 /* Instead of using default, pass in a decoder. */
+								 jString = Charset.defaultCharset().decode(bb).toString();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							stream.close();
+							top = new JSONArray(jString); 
+							
+							}
+						else {
+							// creating json
+							top = new JSONArray();
 						}
 						
-						stream.close();
-						top = new JSONArray(jString); 
+						// adding new info the json
+						JSONObject json = new JSONObject();
+						json.put("Id", "1");
+						json.put("ItemName", sItemName);
+						json.put("Importance", iImportance);
+						json.put("Day", iDay);
+						json.put("Month", iMonth);
+						json.put("Year", iYear);
 						
-						}
-					else {
-						// creating json
-						top = new JSONArray();
+						top.put(top.length(), json);
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					
-					// adding new info the json
-					JSONObject json = new JSONObject();
-					json.put("Id", "1");
-					json.put("ItemName", sItemName);
-					json.put("Importance", iImportance);
-					json.put("Day", iDay);
-					json.put("Month", iMonth);
-					json.put("Year", iYear);
+					try {
+						String sOutput = top.toString();
+						String filename = "todo.json";
+						File file = new File(Environment.getExternalStorageDirectory().toString(), filename);
+						FileOutputStream fos;
+	
+						fos = new FileOutputStream(file);
+						fos.write(sOutput.getBytes());
+						fos.flush();
+						fos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					// show toast
+					Toast.makeText(
+						AddNewItem.this,
+						"\"" + textItemName.getText().toString() + "\" has been added to your list",
+						Toast.LENGTH_SHORT
+					).show();
+					// reset fields
+					textItemName.setText("");
+					rbImportance.setRating(0);
 					
-					top.put(top.length(), json);
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					iYear = c.get(Calendar.YEAR);
+					iMonth = c.get(Calendar.MONTH);
+					iDay = c.get(Calendar.DAY_OF_MONTH);
+					editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);			
 				}
-				
-				try {
-					String sOutput = top.toString();
-					String filename = "todo.json";
-					File file = new File(Environment.getExternalStorageDirectory().toString(), filename);
-					FileOutputStream fos;
-
-					fos = new FileOutputStream(file);
-					fos.write(sOutput.getBytes());
-					fos.flush();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				else {
+					Toast.makeText(AddNewItem.this, "Task Name cannot be empty", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
+
+
 	}
 
 	@Override
