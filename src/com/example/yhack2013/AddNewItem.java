@@ -19,9 +19,11 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -178,5 +180,32 @@ public class AddNewItem extends Activity {
 			}
 		};
 		newFragment.show(getFragmentManager(), "datePicker");
+	}
+	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent event) {
+	    View view = getCurrentFocus();
+	    boolean ret = super.dispatchTouchEvent(event);
+
+	    if (view instanceof EditText) {
+	        View w = getCurrentFocus();
+	        int scrcoords[] = new int[2];
+	        w.getLocationOnScreen(scrcoords);
+	        float x = event.getRawX() + w.getLeft() - scrcoords[0];
+	        float y = event.getRawY() + w.getTop() - scrcoords[1];
+	        
+	        if (event.getAction() == MotionEvent.ACTION_UP 
+	 && (x < w.getLeft() || x >= w.getRight() 
+	 || y < w.getTop() || y > w.getBottom()) ) { 
+	            InputMethodManager imm = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+	            imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+	        }
+	    }
+	 return ret;
+	}
+	
+	public static void hideSoftKeyboard(Activity activity) {
+	    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 }
