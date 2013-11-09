@@ -87,7 +87,7 @@ public class AddNewItem extends Activity {
 						
 						// adding new info the json
 						JSONObject json = new JSONObject();
-						json.put("Id", "1");
+						json.put("Id", top.length());
 						json.put("ItemName", sItemName);
 						json.put("Importance", iImportance);
 						json.put("Day", iDay);
