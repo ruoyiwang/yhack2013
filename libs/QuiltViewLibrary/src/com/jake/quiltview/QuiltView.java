@@ -1,5 +1,6 @@
 package com.jake.quiltview;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.jake.quiltview.QuiltViewPatch.Size;
 
@@ -125,8 +126,10 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Big)) != -1) {
 			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Big);
 			View v = views_a.get(tmp);
+			QuiltViewPatch qvplast = qvp;
+			View vlast = v;
 			
-			quilt.addPatch(v, qvp);
+			//quilt.addPatch(v, qvp);
 			views_a.remove(tmp);
 			sizes_a.remove(tmp);
 			
@@ -134,12 +137,24 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 				qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Tall);
 				v = views_a.get(tmp);
 				
-				quilt.addPatch(v, qvp);
 				views_a.remove(tmp);
 				sizes_a.remove(tmp);
-				quilt.swapLastTwo(2);
+
+				double rand = Math.random() * 10;
+				
+				if (rand < 5) {
+					quilt.addPatch(v, qvp);
+					quilt.addPatch(vlast, qvplast);
+				}
+				else {
+					quilt.addPatch(vlast, qvplast);	
+					quilt.addPatch(v, qvp);
+				}
+				
 				continue;
 			}
+			
+			quilt.addPatch(v, qvp);
 			
 			for (int i = 0; i < 2; i++) {
 				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
