@@ -87,9 +87,12 @@ public class AddNewItem extends Activity {
 							top = new JSONArray();
 						}
 						
+						JSONObject lastobj = top.getJSONObject(top.length()-1);
+						
 						// adding new info the json
 						JSONObject json = new JSONObject();
-						json.put("Id", top.length());
+						json.put("Id", lastobj.getInt("Id")+1);
+							// new item's id will be the last item's id + 1
 						json.put("ItemName", sItemName);
 						json.put("Importance", iImportance);
 						json.put("Desc", editTextDesc);
