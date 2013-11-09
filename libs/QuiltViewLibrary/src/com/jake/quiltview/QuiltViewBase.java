@@ -1,6 +1,7 @@
 package com.jake.quiltview;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayout;
@@ -87,6 +88,17 @@ public class QuiltViewBase extends GridLayout {
 		addView(view);
 		views.add(view);
 	}
+	
+	
+	public void swapLastTwo(int n) {
+		int rand = 1 + (int)(Math.random() * n);
+		
+		if (rand == 1) {
+			Collections.swap(views, views.size() - 1, views.size() - 2);
+		}
+	}
+	
+	
 	
 	public void refresh(){
 		this.removeAllViewsInLayout();
