@@ -1,5 +1,9 @@
 package com.example.yhack2013;
 
+import java.util.ArrayList;
+
+import com.jake.quiltview.QuiltView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -17,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MainActivity extends Activity {
+	public QuiltView quiltView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
