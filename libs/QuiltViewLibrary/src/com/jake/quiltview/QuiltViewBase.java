@@ -75,6 +75,19 @@ public class QuiltViewBase extends GridLayout {
 		views.add(view);
 	}
 	
+	public void addPatch(View view, QuiltViewPatch qvp){		
+		QuiltViewPatch child = qvp;
+		
+		GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+		params.width = size[0]*child.width_ratio;
+		params.height = size[1]*child.height_ratio;
+		params.rowSpec = GridLayout.spec(Integer.MIN_VALUE, child.height_ratio);
+		params.columnSpec = GridLayout.spec(Integer.MIN_VALUE, child.width_ratio);
+		view.setLayoutParams(params);
+		addView(view);
+		views.add(view);
+	}
+	
 	public void refresh(){
 		this.removeAllViewsInLayout();
 		setup();

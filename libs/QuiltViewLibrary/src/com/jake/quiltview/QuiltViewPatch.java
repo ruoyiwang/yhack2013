@@ -9,14 +9,18 @@ public class QuiltViewPatch implements Comparable{
 		this.height_ratio = height_ratio;
 	}
 	
-	private static QuiltViewPatch create(Size size){
+	public static QuiltViewPatch create(Size size){
 		switch(size){
+		case Huge:
+			return new QuiltViewPatch(2,3);
 		case Big:
 			return new QuiltViewPatch(2,2);
 		case Small:
 			return new QuiltViewPatch(1,1);
 		case Tall:
 			return new QuiltViewPatch(1,2);
+		case Wide:
+			return new QuiltViewPatch(2,1);
 		}
 		
 		return new QuiltViewPatch(1,1);
@@ -38,10 +42,12 @@ public class QuiltViewPatch implements Comparable{
 		
 	}
 	
-	private enum Size{
+	public enum Size{
+		Huge,
 		Big,
 		Small,
-		Tall
+		Tall,
+		Wide
 	}
 	
 	public static QuiltViewPatch init(int position, int column){

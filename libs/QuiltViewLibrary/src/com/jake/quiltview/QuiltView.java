@@ -1,6 +1,8 @@
 package com.jake.quiltview;
 import java.util.ArrayList;
 
+import com.jake.quiltview.QuiltViewPatch.Size;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -106,6 +108,92 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 	public void addPatchViews(ArrayList<View> views_a){
 		for(View view: views_a){
 			quilt.addPatch(view);
+		}
+	}
+	
+	public void addPatchYViews(ArrayList<View> views_a, ArrayList<QuiltViewPatch.Size> sizes_a) {
+
+		int tmp;
+		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Huge)) != -1) {
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Huge);
+			View v = views_a.get(tmp);
+			
+			quilt.addPatch(v, qvp);
+			views_a.remove(tmp);
+			sizes_a.remove(tmp);
+		}
+		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Big)) != -1) {
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Big);
+			View v = views_a.get(tmp);
+			
+			quilt.addPatch(v, qvp);
+			views_a.remove(tmp);
+			sizes_a.remove(tmp);
+			
+			if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Tall)) != -1) {
+				qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Tall);
+				v = views_a.get(tmp);
+				
+				quilt.addPatch(v, qvp);
+				views_a.remove(tmp);
+				sizes_a.remove(tmp);
+				
+				break;
+			}
+			
+			for (int i = 0; i < 2; i++) {
+				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
+					qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Small);
+					v = views_a.get(tmp);
+					
+					quilt.addPatch(v, qvp);
+					views_a.remove(tmp);
+					sizes_a.remove(tmp);
+				}
+			}	
+		}
+
+		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Tall)) != -1) {
+			int numWides = 0;
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Big);
+			View v = views_a.get(tmp);
+			
+			quilt.addPatch(v, qvp);
+			views_a.remove(tmp);
+			sizes_a.remove(tmp);
+
+			for (int i = 0; i < 2; i++) {
+				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Wide)) != -1) {
+					qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Wide);
+					v = views_a.get(tmp);
+					
+					quilt.addPatch(v, qvp);
+					views_a.remove(tmp);
+					sizes_a.remove(tmp);
+					
+					numWides++;					
+				}
+			}
+			
+			for (int i = 0; i < (4 - numWides*2); i++) {
+				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
+					qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Small);
+					v = views_a.get(tmp);
+					
+					quilt.addPatch(v, qvp);
+					views_a.remove(tmp);
+					sizes_a.remove(tmp);
+				}				
+			}
+		}
+		
+		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Small);
+			View v = views_a.get(tmp);
+			
+			quilt.addPatch(v, qvp);
+			views_a.remove(tmp);
+			sizes_a.remove(tmp);
 		}
 	}
 	
