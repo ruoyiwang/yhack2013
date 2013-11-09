@@ -138,7 +138,7 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 				views_a.remove(tmp);
 				sizes_a.remove(tmp);
 				
-				break;
+				continue;
 			}
 			
 			for (int i = 0; i < 2; i++) {
@@ -155,7 +155,7 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 
 		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Tall)) != -1) {
 			int numWides = 0;
-			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Big);
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Tall);
 			View v = views_a.get(tmp);
 			
 			quilt.addPatch(v, qvp);
@@ -176,6 +176,27 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 			}
 			
 			for (int i = 0; i < (4 - numWides*2); i++) {
+				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
+					qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Small);
+					v = views_a.get(tmp);
+					
+					quilt.addPatch(v, qvp);
+					views_a.remove(tmp);
+					sizes_a.remove(tmp);
+				}				
+			}
+		}
+		
+		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Wide)) != -1) {
+			int numWides = 0;
+			QuiltViewPatch qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Wide);
+			View v = views_a.get(tmp);
+			
+			quilt.addPatch(v, qvp);
+			views_a.remove(tmp);
+			sizes_a.remove(tmp);
+			
+			for (int i = 0; i < 1; i++) {
 				if ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
 					qvp = QuiltViewPatch.create(QuiltViewPatch.Size.Small);
 					v = views_a.get(tmp);
