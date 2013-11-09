@@ -48,7 +48,7 @@ public class AddNewItem extends Activity {
 		final RatingBar rbImportance = (RatingBar) findViewById(R.id.ratingBar);
 		
 		editTextDueDate.setText(iMonth + "/" + iDay + "/" + iYear);
-				
+		editTextDueDate.setKeyListener(null);
 		// add new button inits
 		Button btnAddNewItem = (Button) findViewById(R.id.btnAddNew);		
 		
