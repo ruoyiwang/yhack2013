@@ -137,7 +137,7 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 				quilt.addPatch(v, qvp);
 				views_a.remove(tmp);
 				sizes_a.remove(tmp);
-				
+				quilt.swapLastTwo(2);
 				continue;
 			}
 			
@@ -206,6 +206,8 @@ public class QuiltView extends FrameLayout implements OnGlobalLayoutListener {
 					sizes_a.remove(tmp);
 				}				
 			}
+			
+			quilt.swapLastTwo(2);
 		}
 		
 		while ((tmp = sizes_a.lastIndexOf(QuiltViewPatch.Size.Small)) != -1) {
