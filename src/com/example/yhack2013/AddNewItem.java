@@ -93,7 +93,7 @@ public class AddNewItem extends Activity {
 						int iNewId = 0;
 						if (top.length() > 0 ) {
 							JSONObject lastobj = top.getJSONObject(top.length()-1);
-							iNewId = lastobj.getInt("Id");
+							iNewId = lastobj.getInt("Id")+1;
 						}
 						
 						// adding new info the json
@@ -107,7 +107,7 @@ public class AddNewItem extends Activity {
 						json.put("Month", iMonth);
 						json.put("Year", iYear);
 						
-						top.put(1, json);
+						top.put(iNewId, json);
 						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
