@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
         	
         	ToDoWidget newTodoWidget = new ToDoWidget(this);
         	
-        	int iDaysLeft = Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - curList.duedate;
+        	int iDaysLeft = curList.duedate - Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
         	
         	newTodoWidget.setContent(curList.title, curList.description, iDaysLeft);
         	widgets.add(newTodoWidget);

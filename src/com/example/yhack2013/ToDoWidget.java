@@ -128,9 +128,9 @@ public class ToDoWidget extends View{
 	    }
 	}
 	public void setContent(String label ,String text,int duedate){
-		this.label = label;
+		this.label = label.toUpperCase();
 		this.text = text;
-		this.day_count = "yoloswag";
+		this.day_count = String.valueOf(duedate)+" Day Left";
 	}
 	
 }
@@ -146,7 +146,7 @@ class NoteDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(text)
+        builder.setMessage(day_count+"\n\n"+text)
                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        // FIRE ZE MISSILES!

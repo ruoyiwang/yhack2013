@@ -43,27 +43,27 @@ class DateCompare implements Comparator<ToDoList> {
     	int criteria1, criteria2;
 
         if (daysLeft1 == 0)
-        	criteria1 = 0;
+        	criteria1 = 4;
         else if (daysLeft1 < 3)
-        	criteria1 = 1;
+        	criteria1 = 3;
         else if (daysLeft1 < 7)
         	criteria1 = 2;
         else if (daysLeft1 < 31)
-        	criteria1 = 3;
+        	criteria1 = 1;
         else
-        	criteria1 = 4;
+        	criteria1 = 0;
 
         if (daysLeft2 == 0)
-        	criteria2 = 0;
+        	criteria2 = 4;
         else if (daysLeft2 < 3)
-        	criteria2 = 1;
+        	criteria2 = 3;
         else if (daysLeft2 < 7)
         	criteria2 = 2;
         else if (daysLeft2 < 31)
-        	criteria2 = 3;
+        	criteria2 = 1;
         else
-        	criteria2 = 4;
+        	criteria2 = 0;
     	
-        return (pi1.importance - criteria1) - (pi2.importance - criteria2);
+        return (pi1.importance + criteria1) - (pi2.importance + criteria2);
     }
 }
