@@ -1,5 +1,17 @@
 package com.example.yhack2013;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +19,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +27,7 @@ import android.graphics.Paint.FontMetricsInt;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,8 +40,10 @@ public class ToDoWidget extends View{
 	GestureDetector gestureDetector;
 	boolean expanded, movemode;
 	Paint paint;
-	int w,h,dx,dy;
+	int w,h,dx,dy,id;
 	String text, label, day_count;
+	Context c;
+	
 	public ToDoWidget(Context context) {
 		super(context);
 		expanded = false;
@@ -35,6 +51,7 @@ public class ToDoWidget extends View{
 		// TODO Auto-generated constructor stub
 		paint = new Paint();
 	    gestureDetector = new GestureDetector(context, new GestureListener());
+		c = context;
 	}
 
     private int determineMaxTextSize(String str, double maxWidth)
@@ -119,42 +136,50 @@ public class ToDoWidget extends View{
 	    @Override
 	    public boolean onDoubleTapEvent(MotionEvent e) {
 	    	if (e.getAction() == MotionEvent.ACTION_DOWN){
-				NoteDialogFragment diag = new NoteDialogFragment(text,label,day_count);
-				Activity fa = (Activity) getContext(); 
+				NoteDialogFragment diag = new NoteDialogFragment(text,label,day_count,id,c);
+				Activity fa = (Activity) getContext();
 				FragmentManager fm = fa.getFragmentManager();
 				diag.show(fm, "");
 	    	}
 	        return true;
 	    }
 	}
-	public void setContent(String label ,String text,int duedate){
+	public void setContent(String label ,String text,int duedate,int id){
 		this.label = label.toUpperCase();
 		this.text = text;
 		this.day_count = String.valueOf(duedate)+" Day Left";
+		this.id = id;
 	}
 	
 }
 
 class NoteDialogFragment extends DialogFragment {
 	String text, label, day_count;
-	public NoteDialogFragment(String text, String label, String day){
+	int itemId;
+	Context c;
+	public NoteDialogFragment(String text, String label, String day, int itemId, Context c){
 		this.text = text;
 		this.label = label;
 		this.day_count = day;
+		this.itemId = itemId;
+		this.c = c;
 	}
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        
         builder.setMessage(day_count+"\n\n"+text)
                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        // FIRE ZE MISSILES!
                    }
                })
-               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+               .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                       // User cancelled the dialog
+                	   DataManager.deleteItemFromFile(itemId);     
+                	   ((Activity)c).finish();
+                	   startActivity(new Intent(c, MainActivity.class));
                    }
                });
         // Create the AlertDialog object and return it
@@ -393,4 +418,5 @@ class TextRect
 	{
 		return wasCut;
 	}
+
 }

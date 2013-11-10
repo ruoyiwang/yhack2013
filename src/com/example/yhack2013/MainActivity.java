@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
         	
         	int iDaysLeft = curList.duedate - Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
         	
-        	newTodoWidget.setContent(curList.title, curList.description, iDaysLeft);
+        	newTodoWidget.setContent(curList.title, curList.description, iDaysLeft, curList.id);
         	widgets.add(newTodoWidget);
         	
 			if(i % 5 == 0)
@@ -181,63 +181,4 @@ public class MainActivity extends Activity {
 	    }
 	}
     
-    public boolean deleteItemFromFile(int id) {
-    	try{
-    		File dir = Environment.getExternalStorageDirectory();
-			File file = new File(dir, "todo.json");
-			if (file.exists()) {
-				// read file in as json string
-				FileInputStream stream = new FileInputStream(file);
-				String jString = null;
-				try {
-					 FileChannel fc = stream.getChannel();
-					 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-					 /* Instead of using default, pass in a decoder. */
-					 jString = Charset.defaultCharset().decode(bb).toString();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				stream.close();
-				JSONArray top = new JSONArray(jString);
-				
-				// make copy of json array with the item deleted
-				JSONArray newTop = new JSONArray();
-				for (int i = 0; i < top.length(); i++) {
-					if (top.getJSONObject(i).getInt("Id") != id) {
-						newTop.put(top.getJSONObject(i));
-					}
-				}
-				
-				// write the new JSONArray to file
-				try {
-					String sOutput = top.toString();
-					FileOutputStream fos;
-
-					fos = new FileOutputStream(file);
-					fos.write(sOutput.getBytes());
-					fos.flush();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				return true;
-			}
-			else {
-				return false;
-			}
-    	} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-    }
 }
